@@ -191,4 +191,3 @@ VALUES (
     (SELECT recipe_id FROM Recipes WHERE recipe_name = 'Chicken Parmesean'),
     (SELECT user_id FROM Users WHERE username = 'user')
 );
-
