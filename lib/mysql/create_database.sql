@@ -62,3 +62,11 @@ CREATE TABLE RecipesIngredients (
     FOREIGN KEY (ingredient_id) REFERENCES Ingredients(ingredient_id),
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
 );
+
+CREATE TABLE MealPlan (
+    users_recipes_id int NOT NULL,
+    meal_date varchar(255),
+    meal_time varchar(255),
+    
+    FOREGIN KEY (users_recipes_id) REFRENCES UsersRecipes(users_recipes_id)
+);
