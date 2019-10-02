@@ -2,12 +2,13 @@
  * create_database.sql - creates the database and tables needed for the meal
  *                       meal planner application
  * Author: Garrick Smith
- * Revision Date: 9/29/19
+ *         Jason Ren
+ * Revision Date: 10/2/19
  ******************************************************************************/
-CREATE DATABASE MealPlanner;
+CREATE DATABASE IF NOT EXISTS MealPlanner;
 USE MealPlanner;
 
-CREATE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
     user_id int NOT NULL AUTO_INCREMENT,
     username varchar(255) NOT NULL,
     user_password varchar(255) NOT NULL,
@@ -17,7 +18,7 @@ CREATE TABLE Users (
     PRIMARY KEY (user_id)
 );
 
-CREATE TABLE Recipes (
+CREATE TABLE IF NOT EXISTS Recipes (
     recipe_id int NOT NULL AUTO_INCREMENT,
     recipe_name varchar(255),
     recipe_desc varchar(255),
@@ -25,7 +26,7 @@ CREATE TABLE Recipes (
     PRIMARY KEY (recipe_id)
 );
 
-CREATE TABLE Ingredients (
+CREATE TABLE IF NOT EXISTS Ingredients (
     ingredient_id int NOT NULL AUTO_INCREMENT,
     ingredient_name varchar(255),
     ingredient_desc varchar(255),
@@ -42,7 +43,7 @@ CREATE TABLE Ingredients (
     PRIMARY KEY (ingredient_id)
 );
 
-CREATE TABLE UsersRecipes (
+CREATE TABLE IF NOT EXISTS UsersRecipes (
     users_recipes_id int NOT NULL AUTO_INCREMENT,
     recipe_id int NOT NULL,
     user_id int NOT NULL,
@@ -52,7 +53,7 @@ CREATE TABLE UsersRecipes (
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE RecipesIngredients (
+CREATE TABLE IF NOTE EXISTS RecipesIngredients (
     recipes_ingredients_id int NOT NULL AUTO_INCREMENT,
     ingredient_id int NOT NULL,
     recipe_id int NOT NULL,
@@ -63,10 +64,12 @@ CREATE TABLE RecipesIngredients (
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
 );
 
-CREATE TABLE MealPlan (
+CREATE TABLE IF NOT EXISTS MealPlan (
     users_recipes_id int NOT NULL,
+    user_id int NOT NULL,
     meal_date varchar(255),
     meal_time varchar(255),
     
-    FOREGIN KEY (users_recipes_id) REFRENCES UsersRecipes(users_recipes_id)
+    PRIMARY KEY (users_recipes_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
