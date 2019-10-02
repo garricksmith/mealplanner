@@ -44,22 +44,18 @@ CREATE TABLE IF NOT EXISTS Ingredients (
 );
 
 CREATE TABLE IF NOT EXISTS UsersRecipes (
-    users_recipes_id int NOT NULL AUTO_INCREMENT,
     recipe_id int NOT NULL,
     user_id int NOT NULL,
     
-    PRIMARY KEY (users_recipes_id),
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE IF NOTE EXISTS RecipesIngredients (
-    recipes_ingredients_id int NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS RecipesIngredients (
     ingredient_id int NOT NULL,
     recipe_id int NOT NULL,
     num_ingredient_servings int,
     
-    PRIMARY KEY (recipes_ingredients_id),
     FOREIGN KEY (ingredient_id) REFERENCES Ingredients(ingredient_id),
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
 );
