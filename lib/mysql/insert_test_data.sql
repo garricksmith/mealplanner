@@ -176,18 +176,26 @@ VALUES (
 /* Add Recipes to User */
 INSERT INTO UsersRecipes (
     recipe_id,
-    user_id
+    user_id,
+    meal_date,
+    meal_time
 )
 VALUES (
     (SELECT recipe_id FROM Recipes WHERE recipe_name = 'Egg and Cheese Bagel'),
-    (SELECT user_id FROM Users WHERE username = 'user')
+    (SELECT user_id FROM Users WHERE username = 'user'),
+    '01/15/2019',
+    'Breakfast'
 );
 
 INSERT INTO UsersRecipes (
     recipe_id,
-    user_id
+    user_id,
+    meal_date,
+    meal_time
 )
 VALUES (
     (SELECT recipe_id FROM Recipes WHERE recipe_name = 'Chicken Parmesean'),
-    (SELECT user_id FROM Users WHERE username = 'user')
+    (SELECT user_id FROM Users WHERE username = 'user'),
+    '01/15/2019',
+    'Dinner'
 );

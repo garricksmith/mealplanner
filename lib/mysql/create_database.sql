@@ -46,6 +46,8 @@ CREATE TABLE IF NOT EXISTS Ingredients (
 CREATE TABLE IF NOT EXISTS UsersRecipes (
     recipe_id int NOT NULL,
     user_id int NOT NULL,
+    meal_date varchar(255),
+    meal_time varchar(255),
     
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
@@ -58,14 +60,4 @@ CREATE TABLE IF NOT EXISTS RecipesIngredients (
     
     FOREIGN KEY (ingredient_id) REFERENCES Ingredients(ingredient_id),
     FOREIGN KEY (recipe_id) REFERENCES Recipes(recipe_id)
-);
-
-CREATE TABLE IF NOT EXISTS MealPlan (
-    users_recipes_id int NOT NULL,
-    user_id int NOT NULL,
-    meal_date varchar(255),
-    meal_time varchar(255),
-    
-    PRIMARY KEY (users_recipes_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
