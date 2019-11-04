@@ -1,15 +1,18 @@
+import java.sql.*;
 
 public class test {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		Ingredients i = new Ingredients.Builder().calories(123).gSaturatedFat(321).create();
-		int c;
-		c = i.getCalories();
-		System.out.print(c);
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+	
+		UsersFacade u = new UsersFacade();
+		Users nu = new Users(3, "F", "1234567", "FF", 1);
+		Users[] uA = new Users[100];
+		uA = u.getUsers();
+		System.out.println(uA[0].toString());
+		System.out.println(uA[1].toString());
+		System.out.println(uA[2].toString());
+		}
 		
-
+	
 	}
 
-}
