@@ -9,10 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackFrame;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public Class MainMenu extends Application{
+public class MainMenu extends Application{
 
     Button button;
     
@@ -28,7 +28,7 @@ public Class MainMenu extends Application{
         button.setText("Click Me");
         
         StackPane layout = new StackPane();
-        layout.getChildren.add(button);
+        layout.getChildren().add(button);
         
         Scene scene = new Scene(layout, 300, 250);
         primaryStage.setScene(scene);
