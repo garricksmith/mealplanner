@@ -18,7 +18,7 @@ public class MainMenu extends Application{
     }
     
     @Override
-    public void signIn(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Meal Planner Login");
         
         GridPane grid = new GridPane();
@@ -28,7 +28,7 @@ public class MainMenu extends Application{
         grid.setPadding(new Insets(25,25,25,25));
         
         Text scenetitle = new Text("Meal Planner: Sign in");
-        scenetitle.setFont(Font.dont("Tahoma", FontWeight.NORMAL, 20));
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle,0,0,2,1);
         
         Label userName = new Label("User Name:");
@@ -61,6 +61,9 @@ public class MainMenu extends Application{
                 if(u[0] != null) {
                     if(u[0].checkPassword(pwBox.getText());
                         System.out.println("Login Successful");
+                        primaryStage.close();
+                        mainMenu(u[0], new Stage);
+                        
                     }
                     else {
                         System.out.println("Password does not match user");
@@ -70,10 +73,38 @@ public class MainMenu extends Application{
                     System.out.println("User does not exist");
                 }
             }
-        }
+        });
         
         Scene scene = new Scene(layout, 300, 250);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
+    @Override
+    public void mainMenu(Users u, Stage menuStage) throws exception{
+        menuStage.setTitle("Meal Planner Main Menu");
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25,25,25,25));
+        
+        Text scenetitle = new Text("Welcome" + u.getName());
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle,0,0,2,1);
+        
+        Button userMeals = new Button("Show My Meals");
+        grid.add(userMeals,0,1);
+        
+        Button allMeals = new Button("Show All Meals");
+        grid.add(allMeals,1,1);
+        
+        StackPane layout = new StackPane();
+        layout.getChildren().add(grid);
+        
+        Scene scene = new Scene(layout, 300, 250);
+        menuStage.setScene(scene);
+        menuStage.show();
+    } 
 }
