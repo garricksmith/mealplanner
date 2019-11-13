@@ -55,10 +55,11 @@ public class MainMenu extends Application{
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                UsersFacade uf = new UsersFacade();
                 Users u = new Users[1];
-                u = getUsersByUsername(userTextField.getText());
-                if(users[0] != null) {
-                    if(users[0].checkPassword(pwBox.getText());
+                u = uf.getUsersByUsername(userTextField.getText());
+                if(u[0] != null) {
+                    if(u[0].checkPassword(pwBox.getText());
                         System.out.println("Login Successful");
                     }
                     else {
