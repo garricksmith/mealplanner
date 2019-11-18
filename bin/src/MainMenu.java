@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import java.util.*;
 
 public class MainMenu extends Application{  
     public static void main(String[] args) {
@@ -55,7 +56,7 @@ public class MainMenu extends Application{
         Button btn2 = new Button("Create Account");
         HBox hbBtn2 = new HBox(10);
         hbBtn2.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn2);
+        hbBtn2.getChildren().add(btn2);
         grid.add(hbBtn2,1,3);
         
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -209,7 +210,7 @@ public class MainMenu extends Application{
             @Override
             public void handle(ActionEvent e) {
                 RecipesFacade rf = new RecipesFacade();
-                Recipes[] r = new Recipes[100];
+                ArrayList<Recipe> r = new ArrayList<>();
                 r = rf.getRecipes();
                 menuStage.close();
                 displayMeals(r, u, new Stage());
@@ -220,7 +221,7 @@ public class MainMenu extends Application{
             @Override
             public void handle(ActionEvent e) {
                 RecipesFacade rf = new RecipesFacade();
-                Recipes[] r = new Recipe[100];
+                ArrayList<Recipe> r = new ArrayList<>();
                 r = rf.getUserRecipesByUserName(u.getUsername());
                 menuStage.close();
                 displayMeals(r, u, new Stage());
@@ -240,7 +241,7 @@ public class MainMenu extends Application{
         menuStage.show();
     } 
     
-    public void displayMeals(Recipe[] recipes, Users u, Stage displayMealsStage) {
+    public void displayMeals(ArrayList<Recipes> recipes, Users u, Stage displayMealsStage) {
         displayMealsStage.setTitle("Meals");
         
         GridPane grid = new GridPane();
@@ -259,8 +260,8 @@ public class MainMenu extends Application{
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(sceneTitle,0,1,2,1);
         
-        for(int i = 0; i < recipes.length; i++) {
-            Label rLabel = new Label(recipes[i].toString());
+        for(int i = 0; i < recipes.size(); i++) {
+            Label rLabel = new Label(recipes.get(i).toString());
             grid.add(rLabel,0,i+2);
         }
         
