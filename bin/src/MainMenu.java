@@ -50,10 +50,10 @@ public class MainMenu extends Application{
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn,1,4);
+        grid.add(hbBtn,1,);
         
         Button btn2 = new Button("Create Account");
-        Hbox hbBtn2 = new HBox(10);
+        HBox hbBtn2 = new HBox(10);
         hbBtn2.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn2);
         grid.add(hbBtn2,1,3);
@@ -105,7 +105,7 @@ public class MainMenu extends Application{
         
         Text scenetitle = new Text("Create New User:");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle,0,0,0,0);
+        grid.add(scenetitle,0,0,2,1);
         
         Label userName = new Label("User Name:");
         grid.add(userName,0,1);
@@ -114,25 +114,25 @@ public class MainMenu extends Application{
         grid.add(userTextField,1,1);
         
         Label pw1 = new Label("Password:");
-        grid.add(pw1,1,2);
+        grid.add(pw1,0,2);
         
         PasswordField pwBox1 = new PasswordField();
         grid.add(pwBox1,1,2);
         
         Label pw2 = new Label("Confirm Password:");
-        grid.add(pw2,2,3);
+        grid.add(pw2,0,3);
         
         PasswordField pwBox2 = new PasswordField();
-        grid.add(pwBox2,2,3);
+        grid.add(pwBox2,1,3);
         
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
         
         Label name = new Label("Name:");
-        grid.add(name,3,4);
+        grid.add(name,0,4);
         
         TextField nameTextField = new TextField();
-        grid.add(nameTextField,3,4);
+        grid.add(nameTextField,1,4);
         
         Button btn = new Button("Create User");
         HBox hbBtn = new HBox(10);
@@ -147,7 +147,7 @@ public class MainMenu extends Application{
                 UsersFacade uf = new UsersFacade();
                 Users[] users = new Users[100];
                 users = getUsers();
-                if(!pwBox1.getText().Equals(pwBox2.getText())) {
+                if(pwBox1.getText().Equals(pwBox2.getText())) {
                     for(int i = 0; i < users.length; i++) {
                         if(userTextField.getText().Equals(users[i].getName())) {
                             System.out.println("Username is taken");
@@ -158,6 +158,7 @@ public class MainMenu extends Application{
                 }
                 else {
                     System.out.println("Passwords do not match");
+                    taken = true;
                 }
                 if(!taken) {
                     User u = new User(userTextField.getText(), pwBox1.getText(), nameTextField.getText(), 0);
@@ -194,8 +195,45 @@ public class MainMenu extends Application{
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
         
+        allMeals.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                RecipesFacade rf = new RecipesFacade();
+                Recipes[] r = new Recipes[100];
+                r = rf.getRecipes();
+                menuStage.close();
+                displayMeals(r, u, new Stage());
+            }
+        });
+        
         Scene scene = new Scene(layout, 300, 250);
         menuStage.setScene(scene);
         menuStage.show();
     } 
+    
+    public void displayMeals(Recipe[] recipes, Users u,Stage displayMealsStage) {
+        displayMealsStage.setTitle("Meals");
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHGap(10);
+        grid.setVGap(10);
+        grid.setPadding(new Insets(25,25,25,25));
+        
+        Text sceneTitle = new Text("Meals: ");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle,0,0,2,1);
+        
+        for(int i = 0; i < recipes.length; i++) {
+            Label rLabel = new Label(recipes[i].getName());
+            grid.add(rLabel,i+1,0);
+        }
+        
+        StackPane layout = new StackPane();
+        layout.getChildren().add(grid);
+        
+        Scene scene = new Scene(layout, 300, 250);
+        menuStage.setScene(scene);
+        menuStage.show();
+    }
 }
