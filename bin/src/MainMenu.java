@@ -24,7 +24,7 @@ public class MainMenu extends Application{
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
-        grid.setCgap(10);
+        grid.setVgap(10);
         grid.setPadding(new Insets(25,25,25,25));
         
         Text scenetitle = new Text("Meal Planner: Sign in");
@@ -164,6 +164,9 @@ public class MainMenu extends Application{
                     User u = new User(userTextField.getText(), pwBox1.getText(), nameTextField.getText(), 0);
                     users = uf.createUsers(u);
                     System.out.println("User created!");
+                    
+                    newUserStage.close();
+                    start(new Stage());
                 }
             }
         });
@@ -182,15 +185,22 @@ public class MainMenu extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(25,25,25,25));
         
+        Button backBtn = new Button("Log Out");
+        HBox hbBtn = new HBox(5);
+        hbBtn.setAlignment(Pos.TOP_LEFT);
+        hbBtn.getChildren().add(backBtn);
+        grid.add(hbBtn,0,0);
+        
+        
         Text scenetitle = new Text("Welcome " + u.getName());
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle,0,0,2,1);
+        grid.add(scenetitle,0,1,2,1);
         
         Button userMeals = new Button("Show My Meals");
-        grid.add(userMeals,0,1);
+        grid.add(userMeals,0,2);
         
         Button allMeals = new Button("Show All Meals");
-        grid.add(allMeals,1,1);
+        grid.add(allMeals,1,2);
         
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
@@ -217,6 +227,14 @@ public class MainMenu extends Application{
             }
         });
         
+        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                mainMenu.close();
+                start(new Stage());
+            }
+        });
+        
         Scene scene = new Scene(layout, 300, 250);
         menuStage.setScene(scene);
         menuStage.show();
@@ -227,24 +245,38 @@ public class MainMenu extends Application{
         
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHGap(10);
-        grid.setVGap(10);
+        grid.setHgap(10);
+        grid.setVgap(10);
         grid.setPadding(new Insets(25,25,25,25));
         
+        Button backBtn = new Button("Back");
+        HBox hbBtn = new HBox(5);
+        hbBtn.setAlignment(Pos.TOP_LEFT);
+        hbBtn.getChildren().add(backBtn);
+        grid.add(hbBtn,0,0);
+        
         Text sceneTitle = new Text("Meals: ");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle,0,0,2,1);
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(sceneTitle,0,1,2,1);
         
         for(int i = 0; i < recipes.length; i++) {
-            Label rLabel = new Label(recipes[i].getName());
-            grid.add(rLabel,i+1,0);
+            Label rLabel = new Label(recipes[i].toString());
+            grid.add(rLabel,0,i+2);
         }
         
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
         
+        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                displayMealsStage.close();
+                mainMenu(u, new Stage());
+            }
+        });
+        
         Scene scene = new Scene(layout, 300, 250);
-        menuStage.setScene(scene);
-        menuStage.show();
+        displayMealsStage.setScene(scene);
+        displayMealsStage.show();
     }
 }
