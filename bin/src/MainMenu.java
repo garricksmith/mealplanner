@@ -206,12 +206,23 @@ public class MainMenu extends Application{
             }
         });
         
+        userMeals.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                RecipesFacade rf = new RecipesFacade();
+                Recipes[] r = new Recipe[100];
+                r = rf.getUserRecipesByUserName(u.getUsername());
+                menuStage.close();
+                displayMeals(r, u, new Stage());
+            }
+        });
+        
         Scene scene = new Scene(layout, 300, 250);
         menuStage.setScene(scene);
         menuStage.show();
     } 
     
-    public void displayMeals(Recipe[] recipes, Users u,Stage displayMealsStage) {
+    public void displayMeals(Recipe[] recipes, Users u, Stage displayMealsStage) {
         displayMealsStage.setTitle("Meals");
         
         GridPane grid = new GridPane();
