@@ -268,6 +268,20 @@ public class MainMenu extends Application{
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
         
+        rLabel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Recipe returnRecipe;
+                rText = rLabel.getText();
+                for(int i = 0; i < recipes.size(); i++) {
+                    if(recipes.get(i).toString().equals(rText)) {
+                        returnRecipe = recipes.get(i);
+                    }
+                }
+                displayRecipe(returnRecipe, recipes, u, new Stage());
+            }
+        });
+        
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -279,5 +293,44 @@ public class MainMenu extends Application{
         Scene scene = new Scene(layout, 300, 250);
         displayMealsStage.setScene(scene);
         displayMealsStage.show();
+    }
+    
+    public void displayRecipe(Recipe r, ArrayList<Recipes> recipes, Users u, Stage recipeStage) {
+        recipeStage.setTitle("Recipe");
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25,25,25,25));
+        
+        Button backBtn = new Button("Back");
+        HBox hbBtn = new HBox(5);
+        hbBtn.setAlignment(Pos.TOP_LEFT);
+        hbBtn.getChildren().add(backBtn);
+        grid.add(hbBtn,0,0);
+        
+        Text sceneTitle = new Text(r.getName());
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(sceneTitle,0,1,2,1);
+        
+        Label l = new Label("Will display elements");
+        grid.add(l,0,2);
+        
+        StackPane layout = new StackPane();
+        layout.getChildren().add(grid);
+        
+        
+        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                recipeStage.close();
+                displayMeals(recipes, u, new Stage());
+            }
+        });
+        
+        Scene scene = new Scene(layout, 300, 250);
+        recipeStage.setScene(scene);
+        recipeStage.show();
     }
 }
