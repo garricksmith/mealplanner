@@ -260,13 +260,28 @@ public class MainMenu extends Application{
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(sceneTitle,0,1,2,1);
         
-        for(int i = 0; i < recipes.size(); i++) {
+        int i;
+        for(i = 0; i < recipes.size(); i++) {
             Label rLabel = new Label(recipes.get(i).toString());
             grid.add(rLabel,0,i+2);
         }
         
+        Button createMeal = new Button("Create Meal");
+        HBox hbBtn2 = new HBox(10);
+        hbBtn2.setAlignment(Pos.CENTER);
+        hbBtn2.getChildren.add(createMeal);
+        grid.add(hbBtn,0,i+2);
+        
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
+        
+        createMeal.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                displayMealsStage.close();
+                createMeal(new Recipes, recipes, u, new Stage());
+            }
+        });
         
         rLabel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -278,6 +293,7 @@ public class MainMenu extends Application{
                         returnRecipe = recipes.get(i);
                     }
                 }
+                displayMealsStage.close();
                 displayRecipe(returnRecipe, recipes, u, new Stage());
             }
         });
@@ -295,7 +311,7 @@ public class MainMenu extends Application{
         displayMealsStage.show();
     }
     
-    public void displayRecipe(Recipe r, ArrayList<Recipes> recipes, Users u, Stage recipeStage) {
+    public void displayRecipe(Recipes r, ArrayList<Recipes> recipes, Users u, Stage recipeStage) {
         recipeStage.setTitle("Recipe");
         
         GridPane grid = new GridPane();
@@ -314,12 +330,11 @@ public class MainMenu extends Application{
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(sceneTitle,0,1,2,1);
         
-        Label l = new Label("Will display elements");
+        Label l = new Label("Will display ingredients");
         grid.add(l,0,2);
         
         StackPane layout = new StackPane();
         layout.getChildren().add(grid);
-        
         
         backBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -332,5 +347,92 @@ public class MainMenu extends Application{
         Scene scene = new Scene(layout, 300, 250);
         recipeStage.setScene(scene);
         recipeStage.show();
+    }
+    
+    public void createMeal(Recipes r, Recipes[] recipes, Users u, Stage createMealStage) {
+        createMealStage.setTitle("Create New Recipe");
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25,25,25,25));
+        
+        Text scenetitle = new Text("Create New Recipe:");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle,0,1,2,1);
+        
+        Label name = new Label("Name:");
+        grid.add(name,0,2);
+        
+        TextField nameTextField = new TextField();
+        grid.add(nameTextField,1,2);
+        
+        Label desc = new Label("Description:");
+        grid.add(desc,0,3);
+        
+        TextField descBox = new TextField();
+        grid.add(descBox,1,3);
+        
+        TilePane r = new TilePane();
+        Label ingLabel = new Label("Add Ingredients");
+        r.getChildren.add(ingLabel);
+        
+        Ingredients[] ingredients = new Ingredients[100];
+        IngredientsFacade ingf = new IngredientsFacade();
+        ingredients = ingf.getIngredients();
+        
+        ArrayList<Ingredients> ingToAdd = new ArrayList<Ingredients>();
+        
+        for(int i = 0; i < ingredients.length; i++) {
+            CheckBox c = new CheckBox(ingredients[i].getName());
+            r.getChildren().add(c);
+            
+            c.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {    
+                    if(c.isSelected()) {
+                        ingToAdd.add(ingredients[i]);
+                    }
+                    else {
+                        ingToAdd.remove(ingredients[i]);
+                    }
+                }
+            });
+        }
+        
+        Button addIngredient = new Button("Create Ingredient");
+        HBox hbBtn2 = new HBox(10);
+        hbBtn2.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn2.getChidlren().add(addIngredient);
+        grid.add(hbBtn2,1,4);
+        
+        Button btn = new Button("Create Recipe");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(btn);
+        grid.add(hbBtn,1,5);
+                
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                RecipesFacade rf = new RecipesFacade(); 
+                Recipes r = new Recipes(nameTextField.getText(),descBox.getText());
+                
+                rf.createRecipes(r);
+                
+                for(int i = 0; i < ingToAdd.size(); i++) {
+                    RecipesIngredientsFacade rif = new RecipesIngredientsFacade();
+                    Recipes[] ra = rf.getRecipeByRecipeName(nameTextField.getText());
+                    RecipesIngredients ri = new RecipesIngredients(ra[0].getId(),ingToAdd.get(i).getId(),0);
+                    
+                    rif.createRecipesIngredients(ri);
+                }
+            }
+        });
+        
+        Scene scene = new Scene(layout, 500, 400);
+        newUserStage.setScene(scene);
+        newUserStage.show();
     }
 }
