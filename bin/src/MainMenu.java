@@ -269,7 +269,7 @@ public class MainMenu extends Application{
         Button createMeal = new Button("Create Meal");
         HBox hbBtn2 = new HBox(10);
         hbBtn2.setAlignment(Pos.CENTER);
-        hbBtn2.getChildren.add(createMeal);
+        hbBtn2.getChildren().add(createMeal);
         grid.add(hbBtn,0,i+2);
         
         StackPane layout = new StackPane();
@@ -431,8 +431,110 @@ public class MainMenu extends Application{
             }
         });
         
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                createMealStage.close();
+                createIngredient(r, recipes, u, new Stage());
+            }
+        });
+        
         Scene scene = new Scene(layout, 500, 400);
         newUserStage.setScene(scene);
         newUserStage.show();
+    }
+    
+    public void createIngredient(Recipes r, Recipes[] recipes, User u, Stage createIngredientStage) {
+        createIngredientStage.setTitle("Create New Ingredient");
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25,25,25,25));
+        
+        Text scenetitle = new Text("Create New Ingredient:");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle,0,1,2,1);
+        
+        Label nameL = new Label("Name:");
+        grid.add(nameL,0,2);
+        TextField nameField = new TextField();
+        grid.add(nameField,1,2);
+        
+        Label descL = new Label("Description:");
+        grid.add(descL,0,3);
+        TextField descField = new TextField();
+        grid.add(descField,1,3);
+        
+        Label metricL = new Label("Measuring Metric:");
+        grid.add(metricL,0,4);
+        TextField metricField = new TextField();
+        grid.add(metricField,1,4);
+        
+        Label ufL = new Label("Unsaturated Fat(g):");
+        grid.add(ufL,0,5);
+        TextField ufField = new TextField();
+        grid.add(ufField,1,5);
+        
+        Label sfL = new Label("Saturated Fat(g):");
+        grid.add(sfL,0,6);
+        TextField sfField = new TextField();
+        grid.add(sfField,1,6);
+        
+        Label tfL = new Label("Trans Fat(g):");
+        grid.add(tfL,0,7);
+        TextField tfField = new TextField();
+        grid.add(tfField,1,7);
+        
+        Label cholL = new Label("Cholesterol(mg):");
+        grid.add(cholL,0,8);
+        TextField cholField = new TextField();
+        grid.add(cholField,1,8);
+
+        Label sodiumL = new Label("Sodium(mg):");
+        grid.add(sodiumL,0,9);
+        TextField sodiumField = new TextField();
+        grid.add(sodiumField,1,9);
+        
+        Label fiberL = new Label("Fiber(g):");
+        grid.add(fiberL,0,10);
+        TextField fiberField = new TextField();
+        grid.add(fiberField,1,10);
+        
+        Label sugarL = new Label("Sugar(g):");
+        grid.add(sugarL,0,11);
+        TextField sugarField = new TextField();
+        grid.add(sugarField,1,11);
+        
+        Label proteinL = new Label("Protein(g):");
+        grid.add(proteinL,0,12);
+        TextField proteinField = new TextField();
+        grid.add(proteinField,1,12);
+        
+        Button addIngredient = new Button("Create Ingredient");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChidlren().add(addIngredient);
+        grid.add(hbBtn,1,13);
+        
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Ingredients i = new Ingredients.Builder().ingredientId(0).ingredientName(nameField.getText()).ingredientDesc(descField.getText()).servingMetric(metricField.getText()).gUnsaturatedFat(ufField.getText()).gSaturatedFat(sfField.getText()).gTransFat(tfField.getText()).mgCholesterol(cholField.getText()).mgSodium(sodiumField.getText()).gFiber(fiberField.getText()).gSugar(sugarField.getText()).gProtein(proteinField.getText()).create();
+                
+                IngredientsFacade ingf = new IngredientsFacade();
+                Ingredients[] ings = new Ingredients[100];
+                
+                ings = ingf.createIngredients(i);
+                
+                createIngredientStage.close();
+                createMeal(r, recipes, u, new Stage());
+            }
+        });
+        
+        Scene scene = new Scene(layout, 600, 400);
+        createIngredientStage.setScene(scene);
+        createIngredientStage.show();
     }
 }
